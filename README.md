@@ -15,7 +15,7 @@ Icon | Name | Version
  | [YTSMP](https://domenicomazza.github.io/ee/YTSMP/) | 1.0.2
  | [dropClick.html](https://domenicomazza.github.io/ee/dropClick.html) | 1.0.0
  | [instantCrowd.html](https://domenicomazza.github.io/ee/instantCrowd.html) | 1.1.0
- | [randomStars.html](https://domenicomazza.github.io/ee/randomStars.html) | 1.0.0
+ 🌌 | [randomStars.html](https://domenicomazza.github.io/ee/randomStars.html) | 1.0.1
  | [randomShapes.html](https://domenicomazza.github.io/ee/andomShapes.html) | 1.0.0
  | [randomColours.html](https://domenicomazza.github.io/ee/randomColours.html) | 1.0.0
  | [paperScissorsRock.html](https://domenicomazza.github.io/ee/paperScissorsRock.html) | 1.0.0

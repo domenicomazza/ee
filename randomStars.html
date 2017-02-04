@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <title>Random Circles</Title>
 <!--
-randomStars v1.0.0
+randomStars v1.0.1
 Domenico Mazza
-http://do.meni.co
+https://do.meni.co
+Changelog:
+5-Feb-2016 1.0.1 slower, with #000 background
 //-->
 <script type="text/javascript">
 
@@ -33,7 +35,7 @@ window.onload = function pixel() {
     if (pixel.counter < 8000) {//if run less than 8000, run again!
         setTimeout(function() {
             pixel(pixel.counter + 1);
-        }, 2);//every .02 seconds
+        }, 500);//every .5 seconds
         ++pixel.counter
     }    
 }
@@ -48,7 +50,8 @@ padding: 0
 
 html,body{
 height:100%;
-background-color: #000033;
+/*background-color: #000033;*/
+background-color: #000;
 font-family: serif;
 color: #fff;
 font-size: 100%;
