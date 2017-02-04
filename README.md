@@ -1,11 +1,5 @@
 # Electronic Experiments
 
-## Overview
-
-From time to time I come up with ideas for single file web experiments. They become fun little projects and provide a chance to pick up new programming skills outside of my day-to-day work.
-
-## Index
-
 Here's a table of the experiments indexed in reverse chronological order (newest on top):
 
 Name | Version
