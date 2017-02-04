@@ -1,0 +1,68 @@
+/*
+YTSMP 1.0.2
+https://github.com/domenicomazza/YTSMP
+*/
+
+#player{/* hide the iframe player */
+visibility: hidden;
+display: none;
+position: absolute;
+text-indent: -9999px;
+width: 1px;
+height: 1px;
+}
+
+#ytsmpPlayer{
+position: relative;
+width: 100%;/* can also set this using a pixel value, here it 100% width of the parent */
+display: none;/* this is reversed if JS is available */
+-webkit-touch-callout: none;/* prevent highlighting */
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+#ytsmpPlayer:before {/* set height as ratio with padding-top, in this case 40% of width */
+display: block;
+content: "";
+width: 100%;
+padding-top: 40%;
+}
+
+#ytsmpPlayer span{
+position: absolute;
+top: 0;
+width: 40%;
+height: 100%;
+margin: 0 5% 0 5%;
+cursor: pointer;
+text-indent: -9999px;
+}
+
+#play-button{
+left: 0;
+background: no-repeat url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAgMTAwIj48cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNMTUuNyAxMC4zIDg0LjMgNTAgMTUuNyA4OS43eiIvPjwvc3ZnPg==);
+}
+#pause-button, #pause-button-inactive{
+left: 0;
+background: no-repeat url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAgMTAwIj48ZyBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIj48cGF0aCBkPSJtMTcuNyAxNS40aDE4LjR2NjkuMmgtMTguNHoiLz48cGF0aCBkPSJtNjQgMTUuNGgxOC40djY5LjJoLTE4LjR6Ii8+PC9nPjwvc3ZnPg==);
+}
+#next-button, #next-button-inactive{
+right: 0;
+background: no-repeat url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAgMTAwIj48ZyBzdHJva2U9IiNmZmYiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIj48cGF0aCBkPSJNMTUuNyAxNC4zIDY0IDUwIDE1LjcgODUuN3oiLz48cGF0aCBkPSJtNjQgMTUuNGgxOC40djY5LjJoLTE4LjR6Ii8+PC9nPjwvc3ZnPg==);
+}
+#next-button-inactive, #pause-button-inactive{
+opacity: 0.2;
+cursor: not-allowed!important;
+}
+#pause-button, #next-button, #pause-button-inactive{
+display: none;
+}
+
+@media only screen and (max-device-width:1024px){/* hide the player on mobile devices as it will not function */
+  #ytsmpPlayer{
+  display: none!important;
+  }
+}

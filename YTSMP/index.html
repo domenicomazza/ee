@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>YTSMP</Title>
+<meta name="description" content="YouTube Simple Music Player">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"><!-- Search engines don't need to see your music taste, block with this line //-->
+<style type="text/css">
+/* This non-essential CSS */
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+background-color: #ccc;
+font-family: sans-serif;
+color: #000;
+font-size: 100%;
+height: 100%;
+-webkit-text-size-adjust:100%;
+}
+
+body{//*center everything using Flexbox*/
+display: -webkit-box;
+display: -moz-box;
+display: -ms-flexbox;
+display: -webkit-flex;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+-webkit-align-items: center;
+-webkit-justify-content: center;
+-webkit-flex-direction: column;
+}
+
+#container{/* a container for the player */
+width: 50%;
+}
+
+.mobile{
+display: none;
+}
+
+@media only screen and (max-device-width:1024px){
+.mobile{
+display: block;
+}
+}
+
+</style>
+<link href="ytsmp.css" rel="stylesheet" type="text/css">
+<script src="ytsmp.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+
+<body>
+
+<div id="container">
+
+	<div id="ytsmpPlayer">
+	<!--
+	YTSMP 1.0.2
+	https://github.com/domenicomazza/YTSMP
+	//-->
+	  <span id="play-button" onclick="switchVisible();">Play</span>
+	  <span id="pause-button" onclick="switchVisible();">Pause</span>
+	  <span id="next-button">Next</span>
+	  <span id="pause-button-inactive">No Pause</span>
+	  <span id="next-button-inactive">No Next</span>
+	  <div id="player"></div>
+	</div>
+
+	<p class="mobile">This music player does not work on mobile devices.</p>
+
+</div>
+</body>
+
+</html>
