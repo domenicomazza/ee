@@ -3,7 +3,7 @@
 YouTube Simple Music Player (YTSMP) is a small HTML/JS YouTube playlist player. Unlike a traditional YouTube player, the video is hidden, and you're provided with three buttons—play, pause and next. The aim of the player is to make setting up, editing and listening to an online mix simple. It uses public content so all you have to do is install the player and create a mix.
 
 ## Demo
-- [YTSMP](https://domenicomazza.github.io/YTSMP/)
+- [YTSMP](https://domenicomazza.github.io/ee/YTSMP/)
 - [Playlist on YouTube](https://www.youtube.com/playlist?list=PLNelKvzgJ1lKvM8T76REo0eUKVBY0_78b)
 
 ## Installation
