@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>meanderTime</title>
+<script type="text/javascript">
+//
+//meanderTime v0.1.1
+//Domenico Mazza
+//http://do.meni.co
+//
+// Changelog
+// 0.1.1 added screen size check so less columns are used
+//
+
+var calcObject = {};//an object to store calculations in ref http://stackoverflow.com/questions/407048/accessing-variables-from-other-functions-without-using-global-variables
+
+function calculationWork(){
+	calcObject.docWidth = window.innerWidth;
+	calcObject.docHeight = window.innerHeight;
+
+	//horizontally the boxes will be square, vertically the boxes will be sligtly rectangular to fill space evenly
+	if(calcObject.docWidth <= 1024){//if screen is less than 600px, use less columns
+		calcObject.numberOfColumns = 15;//columns in grid
+	}else{
+		calcObject.numberOfColumns = 33;//columns in grid
+	}
+	
+	calcObject.horiSquareUnit = (calcObject.docWidth / calcObject.numberOfColumns).toFixed(2);//width and hight for squares placed horizontally
+	var vertDistanceBetweenCornerBoxes = Math.round(calcObject.docHeight - (calcObject.horiSquareUnit * 2));//total distance between corner boxes
+	calcObject.numberOfRows = Math.round(vertDistanceBetweenCornerBoxes / calcObject.horiSquareUnit);//calculate number of rows, minus top and bottom corner box height
+	calcObject.vertRectUnit = (vertDistanceBetweenCornerBoxes / calcObject.numberOfRows).toFixed(2);
+}
+
+function pixel() {
+    if (typeof pixel.counter == 'undefined') {
+        pixel.counter = 0;
+    }
+    //var randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+    var div = document.createElement('div');
+	div.innerHTML = "";
+	//div.style.background = randomColor;
+	div.style.width = calcObject.horiSquareUnit + "px";
+	
+	
+	if (pixel.counter < calcObject.numberOfColumns - 1) {//top row
+		div.style.height = calcObject.horiSquareUnit + "px";
+		
+		if(pixel.counter === 0){//if start, place cap
+			div.className = "cap"; 
+		}else{//else place border
+			div.className = "border"; 
+		}
+
+    }else if(pixel.counter < (calcObject.numberOfColumns + calcObject.numberOfRows)){//right column
+    	div.style.height = calcObject.vertRectUnit + "px";
+    	
+    	if(pixel.counter === calcObject.numberOfColumns - 1){//if start, place cap
+			div.className = "cap rotate90"; 
+		}else{//else place border
+			div.className = "border rotate90"; 
+		}
+
+    	div.style.position = "absolute";
+    	div.style.top = +calcObject.vertRectUnit + (pixel.counter - calcObject.numberOfColumns)*calcObject.vertRectUnit + "px";//calculate position relative to top by subtracting number of boxes placed on top against box count and multiplying by the vertical box height, add verticalRecrUnit to avoid negative value on first box placed like this. The logic is to calculate the number of boxes from the top.
+    	div.style.right = "0px";
+    }else if(pixel.counter < (calcObject.numberOfColumns*2 + calcObject.numberOfRows - 1)){//bottom row
+    	div.style.height = calcObject.horiSquareUnit + "px";
+    	
+    	if(pixel.counter === calcObject.numberOfColumns + calcObject.numberOfRows){//if start, place cap
+			div.className = "cap rotate180"; 
+		}else{//else place border
+			div.className = "border rotate180"; 
+		}
+
+    	div.style.position = "absolute";
+    	div.style.right = (pixel.counter - (calcObject.numberOfColumns + calcObject.numberOfRows))*calcObject.horiSquareUnit + "px";//calculate position relative to right by subtracting number of boxes top, right, from current box count and multiplying by the horizontal box width. The logic is to calculate the number of boxes from the right.
+    	div.style.bottom = "0px";
+    }else if(pixel.counter < (calcObject.numberOfColumns*2 + calcObject.numberOfRows*2)){//left column
+    	div.style.height = calcObject.vertRectUnit + "px";
+    	
+    	if(pixel.counter === calcObject.numberOfColumns*2 + calcObject.numberOfRows - 1){//if start, place cap
+			div.className = "cap rotate270"; 
+		}else{//else place border
+			div.className = "border rotate270"; 
+		}
+
+    	div.style.position = "absolute";
+    	div.style.bottom = (+calcObject.vertRectUnit + (pixel.counter - (calcObject.numberOfColumns*2 + calcObject.numberOfRows))*calcObject.vertRectUnit) + "px";//calculate position relative to bottom by subtracting top, right, bottom box count from current count and multiplying by the vertical box height. The logic is to count the number of boxes from the bottom
+    	div.style.left = "0px";
+    }else{//end
+    	return console.log("Done")//end with done
+    }
+	var bgDiv = document.getElementById("bg");
+	bgDiv.appendChild(div);
+	console.log(pixel.counter);
+
+    setTimeout(function() {
+            pixel(pixel.counter + 1);
+        }, 50);
+        ++pixel.counter
+    
+}
+
+window.onload = function(){
+	calculationWork();
+	pixel();
+}
+
+function reBuild(){
+	document.getElementById("bg").innerHTML = '';
+	calculationWork();
+	pixel.counter = 0;
+	pixel();
+}
+</script>
+<style type="text/css">
+
+html,body{
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+background-color: blue;
+font-family: monospace;
+}
+
+*{
+margin: 0;
+padding: 0;
+}
+
+#bg{
+width: 100%;
+height: 100%;
+overflow: hidden;
+/* prevent highlighting */
+-webkit-user-select: none;  /* Chrome all / Safari all */
+-moz-user-select: none;     /* Firefox all */
+-ms-user-select: none;      /* IE 10+ */
+user-select: none;          /* Likely future */ 
+}
+
+.cap, .border{
+width: 30px;
+height: 30px;
+display: inline-block;
+float: left;
+background-position: 0px 0px;
+background-repeat: none;
+background-size: 100% 100%;
+}
+
+.border{
+background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9PC9zdHlsZT48L2RlZnM+PHBvbHlnb24gY2xhc3M9ImNscy0xIiBwb2ludHM9Ijg4IDg3IDc1IDg3IDYzIDg3IDUwIDg3IDM4IDg3IDM4IDc1IDM4IDYyIDM4IDUwIDM4IDM3IDUwIDM3IDUwIDUwIDUwIDYyIDUwIDc1IDYzIDc1IDc1IDc1IDg4IDc1IDg4IDYyIDg4IDUwIDg4IDM3IDg4IDI1IDg4IDEyIDg4IDAgNzUgMCA2MyAwIDUwIDAgMzggMCAyNSAwIDEzIDAgMCAwIDAgMTIgMCAyNSAwIDM3IDAgNTAgMCA2MiAwIDc1IDAgODcgMCAxMDAgMTMgMTAwIDEzIDg3IDEzIDc1IDEzIDYyIDEzIDUwIDEzIDM3IDEzIDI1IDEzIDEyIDI1IDEyIDM4IDEyIDUwIDEyIDYzIDEyIDc1IDEyIDc1IDI1IDc1IDM3IDc1IDUwIDc1IDYyIDYzIDYyIDYzIDUwIDYzIDM3IDYzIDI1IDUwIDI1IDM4IDI1IDI1IDI1IDI1IDM3IDI1IDUwIDI1IDYyIDI1IDc1IDI1IDg3IDI1IDEwMCAzOCAxMDAgNTAgMTAwIDYzIDEwMCA3NSAxMDAgODggMTAwIDEwMCAxMDAgMTAwIDg3IDg4IDg3Ii8+PC9zdmc+");
+}
+
+.cap{
+background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9PC9zdHlsZT48L2RlZnM+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNNTAuNDEsMjVoLTI1Vjc1aDM4VjI1Wm0wLDI1VjYyaC0xMlYzN2gxMloiLz48cG9seWdvbiBjbGFzcz0iY2xzLTEiIHBvaW50cz0iODguNDEgODcgNzUuNDEgODcgNjMuNDEgODcgNTAuNDEgODcgMzguNDEgODcgMjUuNDEgODcgMTMuNDEgODcgMTMuNDEgNzUgMTMuNDEgNjIgMTMuNDEgNTAgMTMuNDEgMzcgMTMuNDEgMjUgMTMuNDEgMTIgMjUuNDEgMTIgMzguNDEgMTIgNTAuNDEgMTIgNjMuNDEgMTIgNzUuNDEgMTIgNzUuNDEgMjUgNzUuNDEgMzcgNzUuNDEgNTAgNzUuNDEgNjIgNzUuNDEgNzUgODguNDEgNzUgODguNDEgNjIgODguNDEgNTAgODguNDEgMzcgODguNDEgMjUgODguNDEgMTIgODguNDEgMCA3NS40MSAwIDYzLjQxIDAgNTAuNDEgMCAzOC40MSAwIDI1LjQxIDAgMTMuNDEgMCAwLjQxIDAgMC40MSAxMiAwLjQxIDI1IDAuNDEgMzcgMC40MSA1MCAwLjQxIDYyIDAuNDEgNzUgMC40MSA4NyAwLjQxIDEwMCAxMy40MSAxMDAgMjUuNDEgMTAwIDM4LjQxIDEwMCA1MC40MSAxMDAgNjMuNDEgMTAwIDc1LjQxIDEwMCA4OC40MSAxMDAgMTAwLjQxIDEwMCAxMDAuNDEgODcgODguNDEgODciLz48L3N2Zz4=");
+}
+
+.rotate90{
+/* Safari */
+-webkit-transform: rotate(90deg);
+/* Firefox */
+-moz-transform: rotate(90deg);
+/* IE */
+-ms-transform: rotate(90deg);
+/* Opera */
+-o-transform: rotate(90deg);
+}
+
+.rotate180{
+/* Safari */
+-webkit-transform: rotate(180deg);
+/* Firefox */
+-moz-transform: rotate(180deg);
+/* IE */
+-ms-transform: rotate(180deg);
+/* Opera */
+-o-transform: rotate(180deg);
+}
+
+.rotate270{
+/* Safari */
+-webkit-transform: rotate(-90deg);
+/* Firefox */
+-moz-transform: rotate(-90deg);
+/* IE */
+-ms-transform: rotate(-90deg);
+/* Opera */
+-o-transform: rotate(-90deg);
+}
+
+</style>
+</head>
+
+<body onresize="reBuild()">
+
+	<div id="bg"></div>
+
+</body>
+
+</html>

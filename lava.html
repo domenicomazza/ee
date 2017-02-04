@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>Rotating BG</Title>
+<meta name="description" content="">
+<link rel="icon" type="image/png" href="favicon.gif" />
+<!--
+Lava v1.0.0
+Domenico Mazza
+http://do.meni.co
+//-->
+<script type="text/javascript">
+
+window.onload = function(){
+
+  cycleCount = 0;//declare global variable for count
+
+  function rotateBg(){
+    setTimeout(function(){
+      if (cycleCount === 90) {
+        cycleCount = 0;//reset degrees to 0 at 90deg
+      };
+
+      ++cycleCount;//add count
+
+      document.getElementById("bg").style.webkitTransform = "rotate("+cycleCount+"deg)";//transform with cycleCount as deg value
+      document.getElementById("bg").style.MozTransform = "rotate("+cycleCount+"deg)";
+      document.getElementById("bg").style.msTransform = "rotate("+cycleCount+"deg)";
+      document.getElementById("bg").style.OTransform = "rotate("+cycleCount+"deg)";
+      document.getElementById("bg").style.transform = "rotate("+cycleCount+"deg)";
+
+      rotateBg();//run rotate again
+
+    },50);//timeout
+  }
+  rotateBg();//run rotate function
+}
+
+</script>
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #fff;
+font-family: sans-serif;
+color: #fff;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+}
+
+#bg, #textbox{
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjAgMjAiPjxnIGZpbGw9IiNlZWUiPjxwYXRoIGQ9Im0wIDBoMTB2MTBoLTEweiIvPjxwYXRoIGQ9Im0xMCAxMGgxMHYxMGgtMTB6Ii8+PC9nPjwvc3ZnPg==");background-size: 20px 20px;
+}
+
+#bg-box{
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+
+#bg{
+position: relative;
+overflow: hidden;
+width: 200%;
+height: 200%;
+-webkit-transform: rotate(20deg);
+-moz-transform: rotate(20deg);
+-ms-transform: rotate(20deg);
+-o-transform: rotate(20deg);
+transform: rotate(20deg);
+background-color: #F88379;
+left: -50%;
+top: -50%;
+}
+
+#textbox{
+  position: absolute;
+  color: #000;
+  padding: 10px;
+  top: 50px;
+  left: 50px;
+  height: 100px;
+  width: 100px;
+  box-shadow: 3px 3px 10px #666;
+  background-color: #fff;
+}
+
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+
+<body>
+
+<div id="bg-box">
+  <div id="bg">
+  </div>
+</div>
+
+<div id="textbox">
+  <p>Watch out for the lava.</p>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>Random Circles</Title>
+<!--
+randomStars v1.0.0
+Domenico Mazza
+http://do.meni.co
+//-->
+<script type="text/javascript">
+
+var w = window, d = document, e = d.documentElement, g = d.getElementsByTagName('body')[0], docWidth = w.innerWidth || e.clientWidth || g.clientWidth, docHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;//calculates document width and height
+
+window.onload = function pixel() {
+    if (typeof pixel.counter == 'undefined') {
+        pixel.counter = 0;//start run count at zero
+    }
+
+    var div = document.createElement('div');//declare the div
+    div.innerHTML = " ";//empty div
+
+    var xPos = Math.random() * 100;//random number for x-coordinate
+    var yPos = Math.random() * 100;//random number y-coordinate
+    var randomPercentage = Math.round(Math.random()*100)/100;//random percentage
+    div.style.top = Math.round(xPos/100 * docHeight) + 'px';//position div relative to top based on document size
+    div.style.left = Math.round(yPos/100 * docWidth) + 'px';//position div relative to left based on document size
+    div.style.width = randomPercentage*2 + 'px';//random scale of 2px for div width
+    
+    div.className = 'pixel';//give the div its style
+    document.body.appendChild(div);//append the div
+
+    if (pixel.counter < 8000) {//if run less than 8000, run again!
+        setTimeout(function() {
+            pixel(pixel.counter + 1);
+        }, 2);//every .02 seconds
+        ++pixel.counter
+    }    
+}
+
+
+</script>
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #000033;
+font-family: serif;
+color: #fff;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+overflow: hidden;
+}
+
+.pixel{
+width: 2%;
+position: absolute;
+display: inline-block;
+background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg==");
+background-size: 100% 100%;/* background stretch */
+}
+.pixel:before{
+content: "";
+display: block;
+padding-top: 100%; 	/* initial ratio of 1:1*/
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+
+<body>
+
+
+</body>
+
+</html>

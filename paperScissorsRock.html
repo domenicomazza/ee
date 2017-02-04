@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+<title>Paper Scissors Rock</title>
+<!--
+paperScissorsRock v1.0.0
+Domenico Mazza
+http://do.meni.co
+//-->
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #dcdcdc;
+font-family: sans-serif;
+color: #111;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+}
+
+
+a{
+color: #000;
+}
+
+.container{
+display: flex;
+margin: auto;
+height: 100%;
+flex-flow: row wrap;
+justify-content: space-around;
+align-items: center;
+align-content: center;
+}
+
+.item{
+flex-basis: 0;
+padding: 10px;
+margin: 10px;
+outline: 0;
+pointer-events: none;
+}
+
+.item a{
+font-size: 6em;
+font-family: DejaVu Sans, Symbola, Everson Mono, Dingbats, Segoe UI Symbol,
+ Quivira, SunExt-A, FreeSerif, Universalia, unifont;
+cursor: pointer;
+width: 1em;
+text-align: center;
+display: block;
+pointer-events: auto;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+.item:nth-child(2n){
+visibility: hidden;/* hide comp hands */
+}
+
+.item:nth-child(2n) a{
+cursor: none;
+color: #666; 
+}
+
+.item:focus + .item{
+visibility: initial;/* show active comp hand */
+}
+
+.points{
+position: fixed;
+width: 60px;
+height: 30px;
+display: block;
+text-align: center;
+font-size: 2em;
+top: 10px;
+}
+
+#user{
+left: 10px;
+}
+
+#comp{
+right: 10px;
+}
+
+#log{
+position: fixed;
+bottom: 0;
+width: 100%;
+height: 50px;
+font-size: 1.5em;
+text-align: center;
+}
+</style>
+<script type="text/javascript">
+//declared as global variables to keep score
+var userScore = 0;
+var compScore = 0;
+
+var game = function(userChoice){//function initiated with user input
+
+    var computerChoice = Math.random();//random number for hand choice
+
+    if (computerChoice < 0.34) {//randomly choose a hand for comp based on random number
+    	computerChoice = "rock";
+        compHand = "&#9994;";
+    } else if(computerChoice <= 0.67) {
+    	computerChoice = "paper";
+        compHand = "&#9995;";
+    } else {
+    	computerChoice = "scissors";
+        compHand = "&#9996;";
+    };
+    
+    var result = function(gameResult){//put result in log area
+    	document.getElementById('log').innerHTML = gameResult;
+    };
+
+    function userPoint(){//increment user score
+    	document.getElementById('user').innerHTML = "You: " + ++userScore;
+    };
+
+    function compPoint(){//increment comp score
+    	document.getElementById('comp').innerHTML = "Me: " + ++compScore;
+    };
+
+    function handChoice(){
+        document.getElementById('vsRock').innerHTML = compHand;
+        document.getElementById('vsPaper').innerHTML = compHand;
+        document.getElementById('vsScissors').innerHTML = compHand;
+    };
+
+    if (userChoice === computerChoice){//do battle
+        result("We both lost, but got a point each.");
+        userPoint();
+        compPoint();//both score
+    }else if(userChoice === "rock"){
+        if(computerChoice === "scissors"){
+            result("Rock wins! Well done.");
+            userPoint();//user scores
+        }else{
+            result("Paper wins! Try again.");
+            compPoint();//comp scores
+        };
+    }else if(userChoice === "paper"){
+        if(computerChoice === "rock"){
+            result("Paper wins! Must be an error.");
+            userPoint();//user scores
+        }else{
+            result("Scissors wins! As if you were going to win.");
+            compPoint();//comp scores
+        };
+    }else{
+        if(computerChoice === "rock"){
+            result("Rock wins! This computer is better than you.");
+            compPoint();//comp scores
+        }else{
+            result("Scissors wins! Aren't you clever.");
+            userPoint();//user scores
+        };
+    };
+
+    handChoice();
+    
+};
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+    
+<body>
+
+<div class="points" id="user">0</div>
+<div class="points" id="comp">0</div>
+<div id="log"></div>
+
+<div class="container">
+    <div class="item" tabindex="0"><a onclick="game('paper')">&#9995;</a></div>
+    <div class="item"><a id="vsPaper"></a></div>
+    <div class="item" tabindex="0"><a onclick="game('scissors')">&#9996;</a></div>
+    <div class="item"><a id="vsScissors"></a></div>
+	<div class="item" tabindex="0"><a onclick="game('rock')">&#9994;</a></div>
+    <div class="item"><a id="vsRock"></a></div>
+</div>
+
+</body>
+    
+</html>

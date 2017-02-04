@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta charset="utf-8">
+<title>crypticLover</title>
+<meta name="description" content="Scytale for cryptic lovers">
+<script type="text/javascript">
+//
+//crypticLover scytale v1.0.0 (12-Sep-2016)
+//Domenico Mazza
+//http://do.meni.co
+// 
+
+var calcObject = {};//an object to store calculations in ref http://stackoverflow.com/questions/407048/accessing-variables-from-other-functions-without-using-global-variables
+
+function calculationWork(){
+	calcObject.docWidth = window.innerWidth;//get and store window width
+	//calcObject.docHeight = window.innerHeight;//get and store window height
+}
+
+calcObject.cipherMessage = ["s","p","w","m","h","t","l","i","y","e","o","a","t","_","a","p","y","h","_","r","_","i","_","_","t","_","n","_","_","_","_","g","_","_","❤"]//cipher message as array stored in object
+
+var cipherLength = calcObject.cipherMessage.length;//variable for length of cipher
+var cipherLastCharInt = cipherLength - 1;//integer for last value in cipher array
+
+function checkSize(){
+	calculationWork();
+	if(calcObject.docWidth > 525 && calcObject.docWidth < 630){//range calculated (100+5) * 5 & (100+5) * 6
+		calcObject.cipherMessage[cipherLastCharInt] = "💔";//change last character to broken heart
+		writeScytale();//write the scytale
+		colorChange();//if in decrypted width range change colour
+	}else{
+		calcObject.cipherMessage[cipherLastCharInt] = "❤";//restore last character
+		writeScytale();//else rewrite the scytale
+	}
+}
+
+function colorChange(){
+	var i = 0;
+	while(i < cipherLength){//while loop to set decrypted colour class
+		document.getElementsByTagName("span")[i].setAttribute("class","scytaleDecrypted")
+		i++
+	}
+}
+
+function writeScytale(){
+
+	var scytaleRod = document.getElementById("scytale");//get box for message
+	scytaleRod.innerHTML = "";//blank out scytale box
+
+	var i = 0;
+	while(i < cipherLength){//run while loop to place each character
+		var charBox = document.createElement("span");
+		if(calcObject.cipherMessage[i] === "_"){
+			charBox.className = "blankChar"
+			charBox.innerHTML = "&nbsp;";
+		}else{
+			charBox.innerHTML = calcObject.cipherMessage[i];
+		}
+		scytaleRod.appendChild(charBox);
+		i++
+	}
+}
+
+window.onload = function(){//run after window load
+	checkSize();
+}
+</script>
+<style type="text/css">
+html,body{
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+background-color: #fff;
+font-family: -apple-system, Arial, Helvetica, sans-serif
+}
+
+*{
+margin: 0;
+padding: 0;
+}
+
+span{
+display: inline-block;
+width: 100px;
+height: 100px;
+margin-right: 5px;
+background-color: #000;
+color: #fff;
+font-size: 100px;
+line-height: 100px;
+text-align: center;
+text-transform: uppercase;
+}
+
+span:last-of-type{/* set last chacter to emoji symbols */
+	font-family: "EmojiSymbols"!important;
+	font-size: 80px;
+	line-height: 99px;
+}
+
+.blankChar{
+	background-color: #fff;
+}
+
+.scytaleDecrypted{
+	background-color: #fff;
+	color: red;
+}
+
+p.mobileInfo{
+	display: none;
+	visibility: hidden;
+}
+
+@media screen and (max-device-width: 1024px){
+	p.mobileInfo{
+		display: inline-block;
+		visibility: visible;
+		text-align: center;
+		padding: 15px;
+		background-color: red;
+		color: #fff;
+	}
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body onresize="checkSize()">
+	<p class="mobileInfo">You can decrypt this on a desktop device only</p>
+	<div id="scytale"></div>
+
+</body>
+
+</html>

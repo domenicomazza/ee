@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>slideImg</Title>
+<meta name="description" content="">
+<script type="text/javascript">
+//
+//slideImg v1.0.1
+//11 Dec 2016
+//https://do.meni.co
+//
+//Todo
+//* Support for extra data like descriptions, through JSON
+//
+//Changelog
+//1.0.1 (11 Dec 2016) Pre-load surrounding images
+//
+
+var dataObject = {};//object for storing data
+
+var imgSet = ["IMG_1583.JPG", "IMG_1584.JPG", "IMG_1585.JPG", "IMG_1586.JPG"];
+
+var imgDirectory = "assets/";
+
+window.onload = function(){
+	winDimDet();//print dimensions on window load
+	imgDimSet();//set img dimensions on load
+	setImg();//set first img
+}
+
+
+//key checker http://stackoverflow.com/a/9310900
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+
+	e = e || window.event;
+
+	if (e.keyCode == '38') {// up arrow
+		setImg("forward");
+	}
+	else if (e.keyCode == '40') {// down arrow
+		setImg("back");
+	}
+	else if (e.keyCode == '37') {// left arrow
+		setImg("back");
+	}
+	else if (e.keyCode == '39') {// right arrow
+		setImg("forward");
+	}
+
+}
+
+function winDimDet(){//determine window dimentions and store in global object
+	dataObject.winWidth = window.innerWidth;
+	dataObject.winHeight = window.innerHeight;
+	dataObject.winRatio = (window.innerWidth/window.innerHeight).toFixed(2);//ratio calculation rounded to two decimal places
+	//console.log(dataObject.winWidth + "x" + dataObject.winHeight + "px")
+	document.getElementById("printDim").innerHTML = dataObject.winWidth + "×" + dataObject.winHeight + "px";//insert window dimension info into DOM
+	document.getElementById("printRatio").innerHTML = dataObject.winRatio;//insert ratio info into DOM
+}
+
+function imgDimSet(){//set img dimensions
+	winDimDet();
+
+	var bgImgContainer = document.getElementById("bgImg");
+
+	if(dataObject.winRatio >= 1.5){//if ratio is above or equal to 1.5
+		bgImgContainer.style.backgroundSize = "100% auto";//set to full width img
+	}else if(dataObject.winRatio < 1.5){//if ratio is less than 1.5
+		bgImgContainer.style.backgroundSize = "auto 100%";//set to full hight img
+	}else{
+		alert("Error determining screen size ratio.")
+	}
+}
+
+function setImg(direction){	
+
+	if(sessionStorage.imgSetCount === undefined){//if no count
+		sessionStorage.imgSetCount = 0;//set count to zero
+	}
+
+	if (direction === "back"){//if back
+		if(Number(sessionStorage.imgSetCount) === 0){//if count is equals zero, set to last array img
+			sessionStorage.imgSetCount = imgSet.length - 1;
+		}else{
+			sessionStorage.imgSetCount--;//de-increment count
+		}
+		//alert(sessionStorage.imgSetCount)
+	}else if(direction === "forward"){//if forward
+		if(Number(sessionStorage.imgSetCount) === imgSet.length - 1){//if count is indicates end of array, reset count
+			sessionStorage.imgSetCount = 0;
+		}else{
+			sessionStorage.imgSetCount++;//increment count
+		}
+		
+		//alert(sessionStorage.imgSetCount)
+	}
+
+	//Preload img
+
+	preloadImg1 = new Image();//space to preload img
+	preloadImg2 = new Image();//space to preload img
+
+	if(Number(sessionStorage.imgSetCount) === 0){//if first item
+		preloadImg1.src = imgDirectory + imgSet[imgSet.length - 1];//grab last img
+		preloadImg2.src = imgDirectory + imgSet[Number(sessionStorage.imgSetCount) + 1];//grab succeeding img
+	}else if(Number(sessionStorage.imgSetCount) === imgSet.length - 1){//if last item
+		preloadImg1.src = imgDirectory + imgSet[0];//grab first img
+		preloadImg2.src = imgDirectory + imgSet[Number(sessionStorage.imgSetCount) - 1];//grab preceeding img
+	}else{//if not first or last item
+		preloadImg1.src = imgDirectory + imgSet[Number(sessionStorage.imgSetCount) - 1];//grab preceeding img
+		preloadImg2.src = imgDirectory + imgSet[Number(sessionStorage.imgSetCount) + 1];//grab succeeding img
+
+	}
+
+	//Insert img
+
+	var bgImgContainer = document.getElementById("bgImg");
+	bgImgContainer.style.backgroundImage = "url('" + imgDirectory + imgSet[sessionStorage.imgSetCount] +"')";//set img based from array
+
+	document.getElementById("printIndex").innerHTML = "&numero;" + (Number(sessionStorage.imgSetCount) + 1) + "/" + imgSet.length;//insert img index info into DOM
+
+}
+
+</script>
+<style type="text/css">
+
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #fff;
+background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMjAgMjAiPjxnIGZpbGw9IiNlZWUiPjxwYXRoIGQ9Im0wIDBoMTB2MTBoLTEweiIvPjxwYXRoIGQ9Im0xMCAxMGgxMHYxMGgtMTB6Ii8+PC9nPjwvc3ZnPg==");
+background-size: 20px 20px;
+font-family: -apple-system, Helvetica, Arial, sans-serif;
+color: #111;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+}
+
+img{
+	width: 100%;
+}
+
+.noSelect {
+-webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none; /* Chrome/Safari/Opera */
+-khtml-user-select: none; /* Konqueror */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+
+.printInfo{
+	position: absolute;
+	font-size: 2em;
+}
+
+#printDim{
+	color: yellow;
+	bottom: 11px;
+	right: 11px;
+}
+
+#printIndex{
+	color: blue;
+	top: 11px;
+	right: 11px;
+}
+
+#printRatio{
+	color: red;
+	top: 11px;
+	left: 11px;
+}
+
+#bgImg{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	/*background-image: url('JPEG/_MG_3017.jpg'); default 
+	background-size: 100% auto;*/
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+nav div{
+	display: inline-block;
+	width: 50%;
+	height: 100%;
+	position: absolute;
+}
+
+#backImg{
+left: 0;
+cursor: w-resize;
+}
+
+#forwardImg{
+right: 0;
+cursor: e-resize;
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body onresize="imgDimSet()">
+
+<nav>
+	<div id="backImg" onclick="setImg('back')"></div>
+	<div id="forwardImg" onclick="setImg('forward')"></div>
+</nav>
+
+<span class="printInfo noSelect" id="printDim"></span>
+
+<span class="printInfo noSelect" id="printIndex"></span>
+
+<span class="printInfo noSelect" id="printRatio"></span>
+
+<div id="bgImg"></div>
+
+</body>
+
+</html>

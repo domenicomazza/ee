@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+<meta charset="utf-8">
+<title>Dom's PhD Timer</title>
+<meta name="description" content="A timeline of Domenico Mazza's PhD milestones.">
+<script type="text/javascript">
+
+//My PhD timer
+//v1.0.1
+//
+//Changelog
+//v1.0.0 8 Dec 2016 Release
+//v1.0.1 18 Jan 2017 Nicer centred flexbox layout
+
+window.onload = function(){
+
+	var integerDateData = []
+	var integerDateDataDiff = []
+	var integerDateDataScale = []
+
+	var milestoneData = [{"milestoneDate":"2 March 2015","milestoneDescription":"Started PhD"},
+	{"milestoneDate":"21 April 2016","milestoneDescription":"Confirmation"},
+	{"milestoneDate":"5 December 2016","milestoneDescription":"Progress Review"},
+	{"milestoneDate":"31 March 2017","milestoneDescription":"Mid-candidature"},
+	{"milestoneDate":"31 March 2018","milestoneDescription":"Pre-submission"},
+	{"milestoneDate":"30 May 2018","milestoneDescription":"Thesis Submission"}];
+
+
+	for (i = 0; i < milestoneData.length; i++) {
+	convertDate(milestoneData[i].milestoneDate);//convert each date
+		if(integerDateData.length === milestoneData.length){//if array is complete
+			calcDiff()
+		}
+	}
+
+	function convertDate(dateData){
+		integerDateData.push(Date.parse(dateData));//push converted date to global array
+		//console.log(integerDateData)
+	}
+
+	function calcDiff(){
+		for(i = 0; i < integerDateData.length; i++){
+			integerDateDataDiff.push(integerDateData[i]-integerDateData[0]);//subtract date integer from first value (which should be the lowest)
+			//console.log(integerDateDataDiff)
+			if(integerDateDataDiff.length === milestoneData.length){//if array is complete
+				calcScale()
+			}
+		}
+	}
+
+	function calcScale(){
+		for(i = 0; i < integerDateDataDiff.length; i++){
+			integerDateDataScale.push(integerDateDataDiff[i]/integerDateDataDiff[milestoneData.length-1]);//divide differences by last value to get a scale for each
+			//console.log(integerDateDataScale)
+			if(integerDateDataScale.length === milestoneData.length){//if array is complete
+				drawScale()
+			}
+		}
+	}
+
+	function drawScale(){
+		var container = document.getElementById("lineContainer");//get container
+		for(i = 0; i < integerDateDataScale.length; i++){//cycle through array
+			var lineNode = document.createElement("span");//create span element
+			lineNode.style.left = integerDateDataScale[i]*100 + "%";//add left scale
+			lineNode.title = milestoneData[i].milestoneDescription + " on " + milestoneData[i].milestoneDate ;//add description and date to title attribute of node
+			container.appendChild(lineNode);//add node to conatiner
+		}
+	}
+
+	function drawFuse(){
+		//var container = document.getElementById("lineContainer");//get container
+		var dateIntegerToScale = (Date.parse(Date())-integerDateData[0])/integerDateDataDiff[milestoneData.length-1];//today's date minus first value, divided by last diff value for scale
+		//alert(dateIntegerToScale)
+		var fuse = document.getElementById("fuse");
+		fuse.style.left = dateIntegerToScale*100 + "%";//add left scale
+		//container.appendChild(fuse);
+	}
+	drawFuse()
+
+}
+
+</script>
+<style type="text/css">
+
+html,body{
+font-size: 100%;
+height: 100%;
+-webkit-text-size-adjust:100%;
+background-color: #fff;
+font-family: -apple-system, Arial, Helvetica, sans-serif
+}
+
+*{
+margin: 0;
+padding: 0;
+}
+
+h1{
+	margin: 0 auto;
+	max-width: 600px;
+	text-align: center;
+}
+
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#container{
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+#lineContainer{
+	margin: 40px;
+	height: 3px;
+	background-color: #eee;
+	position: relative;
+}
+
+#lineContainer span{/* milestones */
+	display: block;
+	background-color: red;
+	width: 8px;
+	height: 8px;
+	margin-left: -4px;
+	margin-bottom: -2px;
+	bottom: 0;
+	position: absolute;
+	border-radius: 6px;
+	z-index: 10;
+	cursor: help;
+}
+
+#lineContainer span:last-of-type{/* dynamite */
+	width: 16px;
+	height: 16px;
+	margin-bottom: -6px;
+	border-radius: 8px;
+}
+
+#fuse{/* for fuse*/
+position: absolute;
+right: 0;
+background-color: #666;
+display: block;
+height: 100%;
+
+}
+
+#fuse div{/* fuse spark */
+display: block;
+width: 24px;
+height: 24px;
+margin-top: -10px;
+margin-left: -12px;
+background-image: url('data:image/gif;base64,R0lGODlhQABAAJECAP+ZAP8AAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/wtYTVAgRGF0YVhNUDw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo2ZDc2OGYyMC1hNzE3LTQ2NTQtYTMxOS0xNjlmYmY2OTM4M2YiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QUU2QjdBNzRCNEFEMTFFNkI3NTBFNEI5MDlGNEVDQjAiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QUU2QjdBNzNCNEFEMTFFNkI3NTBFNEI5MDlGNEVDQjAiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKE1hY2ludG9zaCkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowYzMxNmM3My1iODI0LTQ4NGUtYTg3My1hMTc3NTY5ZmJjYTQiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NmQ3NjhmMjAtYTcxNy00NjU0LWEzMTktMTY5ZmJmNjkzODNmIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkECQAAAgAsAAAAAEAAQAAAAtyUj6nLGA9fm7RaEePdnGbYhaLxSeM5lRnKLqrWxuRryi1d2wrA9zyj0lV8PmBJSCH2jB/kRPlzHZ0MKIDasmJZ2u2p6z0Ew6IxuWM+b9JqCy6QhY7eceUcVyfeafkiiy0CdgIYIri3wiX3N4ViqEbY1gAZKdVE6cZ4mZKpyYTYKckJmjA5eghjqlAKutrZ6jhjGUK3AIshekG7o6iKi8lXy0vqW6GbIGh8ChJsJ4a3KHssnFzmi/yM0uqJ2mCr8ypMBd68Na6XukuOfuA92g76vi4/T19vf4+fL1MAACH5BAkAAAIALAAAAABAAEAAAAL/lI+pG+29opyUvlez3uY6DoaJB4kmRwbnmqXsK7nwjMj0jef6zvf+BggKgxWbYDh8IYVFEmJJZEEBTc8TqsRanIdpdhpVpMBMKZnKIJ3Rq3VkfP6C3+o4zQvU5vAaPs5fAXinlyHYk2L0Q4d4objFiOEYAxm5YlQ5AlmlckCJiVmj+cjZ4VlSeprJuBlq2kqqisjaaQoLmraKa1v7uplIm1q7m7ooq/tK2Tv6izrcyPLJJXkM/Dwt9lF9ey0QbSVpKBEul5S3tDO+kN5GGNhuRsZ8ZMceL53gBg8mn1+/f3+FDLkyzbbhexfCj7yASAaG6QZQHUIQCiMqWMcto8aNFxw7hljYESRHkRtJajSZESU3lddYVigAACH5BAkAAAIALAAAAABAAEAAAALYlI+py+0Po5y02ouzvqD7TgXiKG7N94XkaDKop65Bu7zgJJd0YgNQvtrxbD8gS3joFY0zpEH5YOqcGCC1Zb1ustoMF/ntWsLiWLB8IaMj0qYGOpaa4JX2nJiWb+jV3P1lolbBlyfzhxLot4fXJbjm4PjIECmpQFmJcIlpoLnZifmZQeh0OQqm6GAqVMqoxQrI0Zqpp6D6YGpXIzuBSzsEa9HLVGbLiapVLBCKkbwcC9zgbGy4uXRWDXmMvSDt6rs9bQSekDse3n2FLqbeqG1+fvQuP09f31UAACH5BAUAAAIALAAAAABAAEAAAAL/lI+pG+29opyUvlez3uY6DoaJB4kmRwbnmqXsK7nwjMj0jef6zvf+BggKgxWbYDh8IYVFEmJJZEEBTc8TqsRanIdpdhpVpMBMKZnKIJ3Rq3VkfP6C3+o4zQvU5vAaPs5fAXinlyHYY4Txs2V1kKgYw9Xx8QjJKFmygjgplrJZqdLYaSngOCIKOlF6elHj2SpahUq66ln62hl7u3oba8QbSitrmwZLLBx8jPnpC5xM+5t6SqfMHIIsS2kanD39zM25TWkoMS6XlLe0U76w3kYY+G5GVn1k5z4fmeAmD0a/f98v3xUy5spcYkWhXSFC9AYiKRhm1qgICuGlazZMQcVvHRw7evwIEoXAkBhdkTyYkWRDkCs/tvT4smPMDQUAADs=');
+background-size: 24px 24px;
+background-repeat: no-repeat;
+background-position: 0;
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+
+<div id="container">
+	<h1>Dom's PhD Timer</h1>
+
+	<div id="lineContainer">
+		<div id="fuse">
+			<div></div>
+		</div>
+	</div>
+</div>
+
+</body>
+
+</html>

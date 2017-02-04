@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>mouse💩</Title>
+<meta name="description" content="">
+<link rel="icon" type="image/png" href="favicon.gif" />
+<!--
+mouseTrack a.k.a Mouse Poo v1.0.0
+Domenico Mazza
+http://do.meni.co
+//-->
+<script type="text/javascript">
+
+
+//based on http://stackoverflow.com/questions/11245119/how-to-get-mouse-pointer-position-using-javascript-for-internet-explorer
+
+document.onmousemove = getMouseXY;//run function of mouse move
+
+// temp values for x,y mouse position
+var tempX = 0
+var tempY = 0
+
+function drawPoo(pooWidth, pooHeight, roundness, xPos, yPos){
+	var div = document.createElement('div');
+	div.innerHTML = "💩";
+	div.className = 'poo';
+	div.style.width = pooWidth + 'px';
+	div.style.height = pooHeight + 'px';
+	div.style.borderRadius = roundness + 'px';
+	div.style.left = xPos + 'px';//position div relative to top based on document size
+    div.style.top = yPos + 'px';//position div relative to left based on document size
+    document.body.appendChild(div);//append the div
+}
+
+function getMouseXY(e) {
+	tempX = e.pageX
+	tempY = e.pageY
+	var startTime = new Date();
+
+	//console.log(new Date())
+
+	drawPoo(11,11,5,tempX,tempY);
+	
+	// show the position values in the form named Show
+	// in the text fields named MouseX and MouseY
+	document.Show.MouseXInput.value = 'x = ' + tempX
+	document.Show.MouseYInput.value = 'y = ' + tempY
+
+}
+
+
+
+
+</script>
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+.poo{
+/*background-color: #f0f;*/
+position: absolute;
+opacity: 0.5;
+}
+
+html,body{
+height:100%;
+background-color: #fff;
+font-family: sans-serif;
+color: #fff;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+
+<form name="Show" >
+<input type="text" name="MouseXInput" value="x = 0" style="font-size: 2em">
+<input type="text" name="MouseYInput" value="y = 0" style="font-size: 2em">
+</form>
+
+
+</body>
+
+</html>

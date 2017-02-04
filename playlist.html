@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
+<title>do.meni.co playlist</title>
+<script type="text/javascript">
+//
+//playlist v1.0.1
+//Domenico Mazza
+//http://do.meni.co
+//
+//Changelog
+//
+//1.0.1 (11-Aug-2016)
+//-webkit prefix added to flex CSS for older browsers
+//
+
+var calcObject = {};//an object to store calculations in ref http://stackoverflow.com/questions/407048/accessing-variables-from-other-functions-without-using-global-variables
+
+function calcWindow(){
+	calcObject.docWidth = window.innerWidth;
+	calcObject.docHeight = window.innerHeight;
+}
+var borderSize = 11;
+
+function embedReSize(){
+	calcWindow();//run window dimension calculation
+	var videoEmbed = document.getElementById("videoWrapperFrame");//id of iFrame
+	videoEmbed.style.width = calcObject.docWidth - borderSize*2 + "px";//set width of embed as window width minus border size x2
+	videoEmbed.style.height = calcObject.docHeight - borderSize*2 + "px";// " " same for width
+	videoEmbed.style.top = borderSize + "px";//set position relative to window based on border size
+	videoEmbed.style.left = borderSize + "px";//" "
+
+}
+
+window.onload = function(){//run on window.onload
+	embedReSize()
+	var videoWrapper = document.getElementById("videoWrapper");//get videoWrapper to apply css effect
+
+	setTimeout(function() {
+		videoWrapper.style.visibility = "visible";//display embed on load of JS to avoid flicker
+		videoWrapper.style.opacity = "1";//restore opacity
+	}, 500);//.5sec timer to run function
+}
+
+function reBuild(){//function activated on resize of <body>
+	embedReSize()
+}
+
+</script>
+<style type="text/css">
+
+html,body{
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+background-color: blue;
+font-family: -apple-system, Arial, Helvetica, sans-serif;
+color: #fff
+}
+
+body{
+overflow: hidden;
+}
+
+*{
+margin: 0;
+padding: 0;
+}
+
+#bg{/* background which perfetly fits embed */
+background-color: #000;
+position: absolute;
+top: 11px;
+right: 11px;
+bottom: 11px;
+left: 11px;
+/* flexbox properties */
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+/*-webkit- flex */
+display: -webkit-flex;
+-webkit-align-items: center;
+-webkit-justify-content: center;
+-webkit-flex-direction: column;
+}
+
+/*
+below CSS based on
+YouTube embed 100% width-height from
+https://css-tricks.com/NetMag/FluidWidthVideo/Article-FluidWidthVideo.php
+*/
+
+#videoWrapper {
+position: relative;
+padding-bottom: 56.25%; /* 16:9 */
+padding-top: 25px;
+height: 0;
+/* css effect http://stackoverflow.com/questions/3331353/transitions-on-the-display-property */
+visibility: hidden;
+opacity: 0;
+transition: visibility 0s, opacity 0.5s linear;
+}
+
+#videoWrapper iframe {
+position: absolute;
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body onresize="reBuild()"><!-- run function on resize of window //-->
+
+<div id="bg"></div>
+
+<div id="videoWrapper">
+	<iframe id="videoWrapperFrame" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLjREeIN_aDdMW73vGVmVgOAMEY-azo1wP" frameborder="0" allowfullscreen></iframe>
+</div>
+
+</body>
+
+</html>

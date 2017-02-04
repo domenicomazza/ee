@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>:>)</Title>
+<!--
+instantCrowd v1.1.0
+Domenico Mazza
+http://do.meni.co
+
+Changelog:
+
+1.1.0 (10-12-2015)
+- Infinite looping. Faces are removed one by one when the screen is filled and replaced again.
+- Screen will fill based on optimal layout of 50px squares
+- Bigger faces.
+- Box dimensions set via JS variable instead of CSS
+- New faces
+- Staggered layout
+
+//-->
+<script type="text/javascript">  
+
+var w = window, d = document, e = d.documentElement, g = d.getElementsByTagName('body')[0], docWidth = w.innerWidth || e.clientWidth || g.clientWidth, docHeight = w.innerHeight|| e.clientHeight|| g.clientHeight;//calculates document width and height
+//console.log(docWidth + " " + docHeight);
+
+var faceSize = 90;//size of square box in px units
+
+var cleanXSplit = Math.floor(docWidth / faceSize);//find how many times faceSize splits across width
+var cleanYSplit = Math.floor(docHeight / faceSize);//find how many times faceSize splits across height
+
+var widthIncrement = Math.floor(100 / cleanXSplit);//calculate percentage increment for width
+var heightIncrement = Math.floor(100 / cleanYSplit);//calculate percentage increment for height
+
+//For array generation and shuffling http://stackoverflow.com/a/5150832
+var array = Array();//set array
+var x,y;//declare variables for x and y coordinates
+
+for(x=0; x <= 100 - widthIncrement; x += widthIncrement){//generate array of coordinates
+    for(y=0; y<= 100 - heightIncrement; y+= heightIncrement){    
+        array.push([x,y]);
+    }
+}
+
+function shuffle(array){//shuffle array and return
+    for(var y, r, x = array.length; x; y = parseInt(Math.random() * x), r = array[--x], array[x] = array[y], array[y] = r);
+    return array;
+};
+
+shuffle(array);//shuffle array
+
+var facesArray = [':^)',':>(',':^●',':^|',':^]','8^{','|:^-',';~)','>:^"'];//our faces
+
+window.onload = function(){
+
+cycleCount = 0;//declare global variable for count
+countStart = array.length - 1;//declare global variable for array length -1 to account for zero
+
+    (function faceCount(n) { //http://stackoverflow.com/questions/24293376/javascript-for-loop-with-timeout   
+        setTimeout(function(){
+
+        //console.log(n);
+
+        if(n === -1){//if count depleted
+            ++cycleCount;//add to cycle count
+            n = countStart;//restart count
+            //console.log("RESTART " + n);
+            //console.log("cc = " + cycleCount);
+        }
+
+        var arrayPick = array[n];//pick shuffled array values sequentially MUST POSITION HERE TO ENSURE -1 isn't caught on count restart
+        
+        var letterPick = facesArray[Math.floor(Math.random() * facesArray.length)];//pick random face from array
+
+        if(cycleCount === 0 || cycleCount % 2 === 0){//if array cycle is even, place faces else remove faces
+            //console.log("even");
+            placeFaces();//run place function
+        }else{
+            //console.log("odd");
+            removeFaces();//run remove function
+        };
+
+        function placeFaces(){
+            if(n <= countStart){// make faces until all face spots have been exhausted
+                var div = document.createElement('div');//create div container
+                div.innerHTML = letterPick;//insert random face
+                div.style.left = arrayPick[0] + '%';//position div relative to left using array value x
+                div.style.top = arrayPick[1] + '%';//position div relative to top using array value y
+                div.style.width = faceSize + 'px';
+                div.style.height = faceSize + 'px';
+                div.style.lineHeight = faceSize/2 + 'px';
+                div.className = 'face';//give the div its style
+                document.body.appendChild(div);//append the div
+                faceCount(--n);//take a mark off the count
+            }
+        }
+
+        function removeFaces(){
+            if(n <= countStart){// remove faces until all face spots have been exhausted
+                document.getElementsByClassName("face")[n].remove();
+                faceCount(--n);//take a mark off the count
+            }
+        }
+
+        },1000);//timeout
+
+    }(countStart));//start n at array.length -1 
+    
+}
+
+</script>
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #fff;
+font-family: sans-serif;
+color: #000;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+overflow: hidden;
+}
+
+.face{
+position: absolute;
+display: inline-block;
+text-align: center;
+font-size: 3em;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+-webkit-transform: rotate(90deg);
+-moz-transform: rotate(90deg);
+-o-transform: rotate(90deg);
+-ms-transform: rotate(90deg);
+transform: rotate(90deg);
+}
+
+.face:nth-of-type(2n){
+margin-left: -45px;/*stagger every 2nd face by half the width*/
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+
+<body>
+
+
+</body>
+
+</html>

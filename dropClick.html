@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html> 
+<head>
+<meta charset="utf-8">
+<title>Drop Click</Title>
+<!--
+dropClick v1.0.0
+Domenico Mazza
+http://do.meni.co
+//-->
+<meta name="description" content="">
+<style type="text/css">
+* {
+margin: 0;
+padding: 0
+}
+
+html,body{
+height:100%;
+background-color: #ccc;
+font-family: sans-serif;
+color: #fff;
+font-size: 100%;
+-webkit-text-size-adjust:100%;
+}
+
+#text, #text p{
+display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+display: -ms-flexbox;      /* TWEENER - IE 10 */
+display: -webkit-flex;     /* NEW - Chrome */
+display: flex;
+}
+
+#text{
+text-align: center;
+flex-flow: column wrap;
+-webkit-flex-flow: column wrap;
+justify-content: center;
+-webkit-justify-content: center;
+align-items: center;
+-webkit-align-items: center;
+height: 100%;
+}
+
+#text p{
+align-items: center;
+-webkit-align-items: center;
+justify-content: space-around;
+-webkit-justify-content: space-around;
+}
+
+#text a{
+font-size: 4em;
+margin-right: 5px;
+font-weight: bold;
+text-decoration: none;
+color: #eee;
+
+text-shadow:
+2px 2px 0 #006837,
+4px 4px 0 #1a9850,
+6px 6px 0 #66bd63,
+8px 8px 0 #a6d96a,
+10px 10px 0 #d9ef8b,
+12px 12px 0 #ffffbf,
+14px 14px 0 #fee08b,
+16px 16px 0 #fdae61,
+18px 18px 0 #f46d43,
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+#text a:active{
+color: rgba(0, 0, 0, 0.0);
+text-shadow:
+2px 2px 0 rgba(0, 0, 0, 0.0),
+4px 4px 0 rgba(0, 0, 0, 0.0),
+6px 6px 0 rgba(0, 0, 0, 0.0),
+8px 8px 0 rgba(0, 0, 0, 0.0),
+10px 10px 0 rgba(0, 0, 0, 0.0),
+12px 12px 0 #ffffbf,
+14px 14px 0 #fee08b,
+16px 16px 0 #fdae61,
+18px 18px 0 #f46d43,
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+#text a:nth-child(7n+7):active{
+color: rgba(0, 0, 0, 0.0);
+text-shadow:
+2px 2px 0 rgba(0, 0, 0, 0.0),
+4px 4px 0 rgba(0, 0, 0, 0.0),
+6px 6px 0 #66bd63,
+8px 8px 0 #a6d96a,
+10px 10px 0 #d9ef8b,
+12px 12px 0 #ffffbf,
+14px 14px 0 #fee08b,
+16px 16px 0 #fdae61,
+18px 18px 0 #f46d43,
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+#text a:nth-child(3n+3):active{
+color: rgba(0, 0, 0, 0.0);
+text-shadow:
+2px 2px 0 rgba(0, 0, 0, 0.0),
+4px 4px 0 rgba(0, 0, 0, 0.0),
+6px 6px 0 rgba(0, 0, 0, 0.0),
+8px 8px 0 rgba(0, 0, 0, 0.0),
+10px 10px 0 #d9ef8b,
+12px 12px 0 #ffffbf,
+14px 14px 0 #fee08b,
+16px 16px 0 #fdae61,
+18px 18px 0 #f46d43,
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+#text a:nth-child(2n+2):active{
+color: rgba(0, 0, 0, 0.0);
+text-shadow:
+2px 2px 0 rgba(0, 0, 0, 0.0),
+4px 4px 0 rgba(0, 0, 0, 0.0),
+6px 6px 0 rgba(0, 0, 0, 0.0),
+8px 8px 0 rgba(0, 0, 0, 0.0),
+10px 10px rgba(0, 0, 0, 0.0),
+12px 12px rgba(0, 0, 0, 0.0),
+14px 14px rgba(0, 0, 0, 0.0),
+16px 16px 0 #fdae61,
+18px 18px 0 #f46d43,
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+#text a:nth-child(5n+5):active{
+color: rgba(0, 0, 0, 0.0);
+text-shadow:
+2px 2px 0 rgba(0, 0, 0, 0.0),
+4px 4px 0 rgba(0, 0, 0, 0.0),
+6px 6px 0 rgba(0, 0, 0, 0.0),
+8px 8px 0 rgba(0, 0, 0, 0.0),
+10px 10px rgba(0, 0, 0, 0.0),
+12px 12px rgba(0, 0, 0, 0.0),
+14px 14px rgba(0, 0, 0, 0.0),
+16px 16px rgba(0, 0, 0, 0.0),
+18px 18px rgba(0, 0, 0, 0.0),
+20px 20px 0 #d73027,
+22px 22px 0 #a50026;
+}
+
+@media screen and (max-device-width: 1024px){
+
+    #text a:hover{
+    color: rgba(0, 0, 0, 0.0);
+    text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.0),
+    4px 4px 0 rgba(0, 0, 0, 0.0),
+    6px 6px 0 rgba(0, 0, 0, 0.0),
+    8px 8px 0 rgba(0, 0, 0, 0.0),
+    10px 10px 0 rgba(0, 0, 0, 0.0),
+    12px 12px 0 #ffffbf,
+    14px 14px 0 #fee08b,
+    16px 16px 0 #fdae61,
+    18px 18px 0 #f46d43,
+    20px 20px 0 #d73027,
+    22px 22px 0 #a50026;
+    }
+
+    #text a:nth-child(7n+7):hover{
+    color: rgba(0, 0, 0, 0.0);
+    text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.0),
+    4px 4px 0 rgba(0, 0, 0, 0.0),
+    6px 6px 0 #66bd63,
+    8px 8px 0 #a6d96a,
+    10px 10px 0 #d9ef8b,
+    12px 12px 0 #ffffbf,
+    14px 14px 0 #fee08b,
+    16px 16px 0 #fdae61,
+    18px 18px 0 #f46d43,
+    20px 20px 0 #d73027,
+    22px 22px 0 #a50026;
+    }
+
+    #text a:nth-child(3n+3):hover{
+    color: rgba(0, 0, 0, 0.0);
+    text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.0),
+    4px 4px 0 rgba(0, 0, 0, 0.0),
+    6px 6px 0 rgba(0, 0, 0, 0.0),
+    8px 8px 0 rgba(0, 0, 0, 0.0),
+    10px 10px 0 #d9ef8b,
+    12px 12px 0 #ffffbf,
+    14px 14px 0 #fee08b,
+    16px 16px 0 #fdae61,
+    18px 18px 0 #f46d43,
+    20px 20px 0 #d73027,
+    22px 22px 0 #a50026;
+    }
+
+    #text a:nth-child(2n+2):hover{
+    color: rgba(0, 0, 0, 0.0);
+    text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.0),
+    4px 4px 0 rgba(0, 0, 0, 0.0),
+    6px 6px 0 rgba(0, 0, 0, 0.0),
+    8px 8px 0 rgba(0, 0, 0, 0.0),
+    10px 10px rgba(0, 0, 0, 0.0),
+    12px 12px rgba(0, 0, 0, 0.0),
+    14px 14px rgba(0, 0, 0, 0.0),
+    16px 16px 0 #fdae61,
+    18px 18px 0 #f46d43,
+    20px 20px 0 #d73027,
+    22px 22px 0 #a50026;
+    }
+
+    #text a:nth-child(5n+5):hover{
+    color: rgba(0, 0, 0, 0.0);
+    text-shadow:
+    2px 2px 0 rgba(0, 0, 0, 0.0),
+    4px 4px 0 rgba(0, 0, 0, 0.0),
+    6px 6px 0 rgba(0, 0, 0, 0.0),
+    8px 8px 0 rgba(0, 0, 0, 0.0),
+    10px 10px rgba(0, 0, 0, 0.0),
+    12px 12px rgba(0, 0, 0, 0.0),
+    14px 14px rgba(0, 0, 0, 0.0),
+    16px 16px rgba(0, 0, 0, 0.0),
+    18px 18px rgba(0, 0, 0, 0.0),
+    20px 20px 0 #d73027,
+    22px 22px 0 #a50026;
+    }
+
+}
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+</head>
+
+<body>
+
+<div id="text">
+<p>
+<a href="#">B</a>
+<a href="#">e</a>
+<a href="#">c</a>
+<a href="#">a</a>
+<a href="#">u</a>
+<a href="#">s</a>
+<a href="#">e</a>
+</p>
+<p>
+<a href="#">I</a>
+</p>
+<p>
+<a href="#">c</a>
+<a href="#">a</a>
+<a href="#">n.</a>
+</p>
+</div>
+
+</body>
+
+</html>
