@@ -18,7 +18,7 @@ playlist.html | 1.0.1
 meanderTime.html | 0.1.1
 mouseTrack.html | 1.0.0
 lava.html | 1.0.0
-YouTube Simple Music Player (YTSMP) | 1.0.2
+YTSMP | 1.0.2
 dropClick.html | 1.0.0
 instantCrowd.html | 1.1.0
 randomStars.html | 1.0.0
