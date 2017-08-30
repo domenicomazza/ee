@@ -62,8 +62,11 @@ window.onload = function(){
 	function drawScale(){
 		var container = document.getElementById("lineContainer");//get container
 		for(i = 0; i < integerDateDataScale.length; i++){//cycle through array
-			var lineNode = document.createElement("span");//create span element
+			var lineNode = document.createElement("a");//create anchor element, so targets work
 			lineNode.style.left = integerDateDataScale[i]*100 + "%";//add left scale
+			var nodeId = "link" + i;//ID made of "link" + i
+			lineNode.id = nodeId;//add id to node element
+			lineNode.href = "#" + nodeId;//add ID ref to href of node element
 			var text = milestoneData[i].milestoneDescription + " on " + milestoneData[i].milestoneDate;//text to show
 			lineNode.title = text;//add description and date to title attribute of node
 			//lineNode.innerHTML = text;
@@ -124,7 +127,7 @@ h1{
 	height: 3px;
 }
 
-#lineContainer span{/* milestones */
+#lineContainer a{/* milestones */
 	display: block;
 	background-color: red;
 	width: 8px;
@@ -136,9 +139,11 @@ h1{
 	border-radius: 6px;
 	z-index: 10;
 	cursor: help;
+	outline: none;
+	color: #000;
 }
 
-#lineContainer span[title]:hover:after{/* tooltip style */
+#lineContainer a[title]:target:after{/* tooltip style */
   content: attr(title);
   position: absolute;
   background-color: #f7f7f7;
@@ -149,7 +154,7 @@ h1{
   transform: translateX(-50%);
 }
 
-#lineContainer span:last-of-type{/* dynamite */
+#lineContainer a:last-of-type{/* dynamite */
 	width: 16px;
 	height: 16px;
 	margin-bottom: -6px;
