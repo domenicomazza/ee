@@ -23,7 +23,7 @@ window.onload = function(){
 	{"milestoneDate":"21 April 2016","milestoneDescription":"Confirmation"},
 	{"milestoneDate":"5 December 2016","milestoneDescription":"Progress Review"},
 	{"milestoneDate":"26 June 2017","milestoneDescription":"Mid-candidature"},
-	{"milestoneDate":"30 Septemeber 2018","milestoneDescription":"Pre-submission"},
+	{"milestoneDate":"30 September 2018","milestoneDescription":"Pre-submission"},
 	{"milestoneDate":"30 November 2018","milestoneDescription":"Thesis Submission"}];
 
 
@@ -64,7 +64,9 @@ window.onload = function(){
 		for(i = 0; i < integerDateDataScale.length; i++){//cycle through array
 			var lineNode = document.createElement("span");//create span element
 			lineNode.style.left = integerDateDataScale[i]*100 + "%";//add left scale
-			lineNode.title = milestoneData[i].milestoneDescription + " on " + milestoneData[i].milestoneDate ;//add description and date to title attribute of node
+			var text = milestoneData[i].milestoneDescription + " on " + milestoneData[i].milestoneDate;//text to show
+			lineNode.title = text;//add description and date to title attribute of node
+			//lineNode.innerHTML = text;
 			container.appendChild(lineNode);//add node to conatiner
 		}
 	}
@@ -98,27 +100,28 @@ padding: 0;
 }
 
 h1{
-	margin: 0 auto;
-	max-width: 600px;
+	width: 100%;
 	text-align: center;
 }
 
-body{
+#container{
 	display: flex;
-	flex-direction: column;
+	flex-flow: column wrap;
+	align-content: center;
 	justify-content: center;
+	height: 100%;
+	margin: 0 10vw;
 }
 
-#container{
-	margin: 0 auto;
-	max-width: 800px;
+#container > *{/* space first level items in container */
+	margin: 10px 0;
 }
 
 #lineContainer{
-	margin: 40px;
-	height: 3px;
 	background-color: #eee;
-	position: relative;
+	position: relative;/* make sure elements inside are positioned relative to this box */
+	flex: 0 1 auto;
+	height: 3px;
 }
 
 #lineContainer span{/* milestones */
@@ -133,6 +136,17 @@ body{
 	border-radius: 6px;
 	z-index: 10;
 	cursor: help;
+}
+
+#lineContainer span[title]:hover:after{/* tooltip style */
+  content: attr(title);
+  position: absolute;
+  background-color: #f7f7f7;
+  width: 100px;
+  font-size: .8em;
+  margin-top: 20px;
+  padding: 10px;
+  transform: translateX(-50%);
 }
 
 #lineContainer span:last-of-type{/* dynamite */
