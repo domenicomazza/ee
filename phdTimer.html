@@ -7,11 +7,12 @@
 <script type="text/javascript">
 
 //My PhD timer
-//v1.0.1
+//v1.0.2
 //
 //Changelog
 //v1.0.0 8 Dec 2016 Release
 //v1.0.1 18 Jan 2017 Nicer centred flexbox layout
+//v1.0.2 30 Aug 2017, mobile tooltip, handle end of fuse
 
 window.onload = function(){
 
@@ -69,18 +70,18 @@ window.onload = function(){
 			lineNode.href = "#" + nodeId;//add ID ref to href of node element
 			var text = milestoneData[i].milestoneDescription + " on " + milestoneData[i].milestoneDate;//text to show
 			lineNode.title = text;//add description and date to title attribute of node
-			//lineNode.innerHTML = text;
 			container.appendChild(lineNode);//add node to conatiner
 		}
 	}
 
 	function drawFuse(){
-		//var container = document.getElementById("lineContainer");//get container
 		var dateIntegerToScale = (Date.parse(Date())-integerDateData[0])/integerDateDataDiff[milestoneData.length-1];//today's date minus first value, divided by last diff value for scale
 		//alert(dateIntegerToScale)
 		var fuse = document.getElementById("fuse");
 		fuse.style.left = dateIntegerToScale*100 + "%";//add left scale
-		//container.appendChild(fuse);
+		if (Date.parse(milestoneData[milestoneData.length-1].milestoneDate) < Date.parse(Date())){//if last date in array is less than current date
+			fuse.style.display = "none";//hide fuse
+		}
 	}
 	drawFuse()
 
